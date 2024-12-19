@@ -1,21 +1,43 @@
 <script>
 	import { difficulty as difficultyStore } from '@sudoku/stores/difficulty';
-	import { startNew, startCustom } from '@sudoku/game';
+	import { startNew, startCustom, startImport } from '@sudoku/game';
 	import { validateSencode } from '@sudoku/sencode';
 	import { DIFFICULTIES } from '@sudoku/constants';
+	import { validateUrlcode } from '@sudoku/urlcode';
 
 	export let data = {};
 	export let hideModal;
 
 	let difficulty = $difficultyStore;
-	let sencode = data.sencode || '';
+	// let sencode = data.sencode || '';
 
-	$: enteredSencode = sencode.trim().length !== 0;
-	$: buttonDisabled = enteredSencode ? !validateSencode(sencode) : !DIFFICULTIES.hasOwnProperty(difficulty);
+	// $: enteredSencode = sencode.trim().length !== 0;
+	// $: buttonDisabled = enteredSencode ? !validateSencode(sencode) : !DIFFICULTIES.hasOwnProperty(difficulty);
+
+	let sudokuCode = data.sencode || '';
+
+	$: enteredSudokuCode = sudokuCode.trim().length !== 0;
+	$: buttonDisabled = enteredSudokuCode ? !validateSudokuCode(sudokuCode) : !DIFFICULTIES.hasOwnProperty(difficulty);
+
+	function validateSudokuCode(code) {
+		return validateSencode(code) || validateUrlcode(code);
+	}
+
+	// function handleStart() {
+	// 	if (validateSencode(sencode)) {
+	// 		startCustom(sencode);
+	// 	} else {
+	// 		startNew(difficulty);
+	// 	}
+
+	// 	hideModal();
+	// }
 
 	function handleStart() {
-		if (validateSencode(sencode)) {
-			startCustom(sencode);
+		if (validateSencode(sudokuCode)) {
+			startCustom(sudokuCode);
+		} else if (validateUrlcode(sudokuCode)) {
+			startImport(sudokuCode);
 		} else {
 			startNew(difficulty);
 		}
@@ -35,7 +57,7 @@
 <label for="difficulty" class="text-lg mb-3">To start a game, choose a difficulty:</label>
 
 <div class="inline-block relative mb-6">
-	<select id="difficulty" class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty} disabled={enteredSencode}>
+	<select id="difficulty" class="btn btn-small w-full appearance-none leading-normal" bind:value={difficulty} disabled={enteredSudokuCode}>
 		{#each Object.entries(DIFFICULTIES) as [difficultyValue, difficultyLabel]}
 			<option value={difficultyValue}>{difficultyLabel}</option>
 		{/each}
@@ -50,7 +72,8 @@
 
 <label for="sencode" class="text-lg mb-3">Or, if you have a code for a custom Sudoku puzzle, enter it here:</label>
 
-<input id="sencode" class="input font-mono mb-5" bind:value={sencode} type="text">
+<!-- <input id="sencode" class="input font-mono mb-5" bind:value={sencode} type="text"> -->
+<input id="sencode" class="input font-mono mb-5" bind:value={sudokuCode} type="text">
 
 <div class="flex justify-end">
 	<button class="btn btn-small btn-primary" disabled={buttonDisabled} on:click={handleStart}>Start</button>

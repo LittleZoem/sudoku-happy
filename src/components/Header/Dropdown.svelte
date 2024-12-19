@@ -5,6 +5,7 @@
 	import { slide, fade } from 'svelte/transition';
 	import { DIFFICULTIES, DROPDOWN_DURATION, DIFFICULTY_CUSTOM } from '@sudoku/constants';
 	import { difficulty } from '@sudoku/stores/difficulty';
+	import { validateUrlcode } from '@sudoku/urlcode';
 
 	let dropdownVisible = false;
 
@@ -42,6 +43,18 @@
 		dropdownVisible = false;
 		game.pause();
 
+		// modal.show('prompt', {
+		// 	title: 'Enter Code',
+		// 	text: 'Please enter the code of the Sudoku puzzle you want to play:',
+		// 	fontMono: true,
+		// 	button: 'Start',
+		// 	onHide: game.resume,
+		// 	callback: (value) => {
+		// 		game.startCustom(value);
+		// 	},
+		// 	validate: validateSencode
+		// });
+
 		modal.show('prompt', {
 			title: 'Enter Code',
 			text: 'Please enter the code of the Sudoku puzzle you want to play:',
@@ -49,9 +62,9 @@
 			button: 'Start',
 			onHide: game.resume,
 			callback: (value) => {
-				game.startCustom(value);
+				game.startImport(value);
 			},
-			validate: validateSencode
+			validate: validateUrlcode
 		});
 	}
 
