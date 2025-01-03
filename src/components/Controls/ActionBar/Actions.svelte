@@ -1,6 +1,6 @@
 <script>
 	import { candidates } from '@sudoku/stores/candidates';
-	import { userGrid } from '@sudoku/stores/grid';
+	import { invalidCells, userGrid } from '@sudoku/stores/grid';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { hints } from '@sudoku/stores/hints';
 	import { notes } from '@sudoku/stores/notes';
@@ -23,6 +23,19 @@
 </script>
 
 <div class="action-buttons space-x-3">
+
+	<button class="btn btn-round" disabled={$gamePaused || $invalidCells.length !== 0} on:click={roam.save} title="Save">
+		<!-- <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<circle cx="12" cy="12" r="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> 
+		</svg> -->
+		<p>save</p>
+	</button>
+
+	<button class="btn btn-round" disabled={$gamePaused || $roam.checkpoint == null} on:click={roam.restore} title="Restore">
+    <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m 13 2 a 10 10 0 1 1 -10 10 h 4 l -4 -4 l -4 4 h 4 a 10 10 0 1 0 10 -10 z" />
+		</svg>
+	</button>
 
 	<button class="btn btn-round" disabled={$gamePaused || $roam.undoStack.length === 0} on:click={roam.undo} title="Undo">
 		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -3,6 +3,7 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
+	import { roam } from '@sudoku/stores/roam';
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
@@ -24,6 +25,8 @@
 				userGrid.set($cursor, num);
 			}
 		}
+
+
 	}
 
 	function handleKey(e) {

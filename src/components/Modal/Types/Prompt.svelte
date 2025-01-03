@@ -8,6 +8,7 @@
 		if (data.callback) data.callback(value);
 		hideModal();
 	}
+	console.log(data)
 </script>
 
 <h1 class="text-3xl font-semibold mb-5 leading-none">{data.title || 'Please enter something'}</h1>
