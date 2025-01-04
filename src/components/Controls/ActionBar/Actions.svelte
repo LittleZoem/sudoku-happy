@@ -10,6 +10,7 @@
 	import { roam } from '@sudoku/stores/roam';
 	import { strategyManager } from '@sudoku/strategy/strategy_manager';
 	import { get } from 'svelte/store';
+	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
 
 	// $: hintsAvailable = $hints > 0;
 
@@ -19,17 +20,26 @@
 		// 	candidates.clear($cursor);
 		// }
 
+		hintHighLight.clear();
+
 		let grid = get(userGrid);
 
+		console.log("in handleHint");
 		console.log(grid);
+		console.log("out handleHint");
 
 		strategyManager.run(grid);
 
 		cursor.reset();
 
-		userGrid.showHint(strategyManager.getHint());
+		let ans = strategyManager.getAnswer(grid);
 
-		console.log(strategyManager.getHint());
+		console.log(ans);
+
+		if (ans.hasAnswer) {
+			userGrid.showHint(ans);
+		}
+
 		// }
 	}
 </script>

@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
+	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
 
 	export let value;
 	export let cellX;
@@ -20,6 +21,11 @@
 	const borderRightBold = (cellX !== SUDOKU_SIZE && cellX % 3 === 0);
 	const borderBottom = (cellY !== SUDOKU_SIZE && cellY % 3 !== 0);
 	const borderBottomBold = (cellY !== SUDOKU_SIZE && cellY % 3 === 0);
+
+	function clickCell (x, y) {
+		cursor.set(x, y);
+		hintHighLight.clear();
+	}
 </script>
 
 <div class="cell row-start-{cellY} col-start-{cellX}"
@@ -36,7 +42,7 @@
 		     class:same-number={sameNumber}
 		     class:conflicting-number={conflictingNumber}>
 
-			<button class="cell-btn" on:click={cursor.set(cellX - 1, cellY - 1)}>
+			<button class="cell-btn" on:click={clickCell(cellX - 1, cellY - 1)}>
 				{#if candidates}
 					<Candidates {candidates} />
 				{:else}

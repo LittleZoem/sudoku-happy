@@ -6,9 +6,20 @@
 	import { cursor } from '@sudoku/stores/cursor';
 	import { candidates } from '@sudoku/stores/candidates';
 	import Cell from './Cell.svelte';
+	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
 
 	function isSelected(cursorStore, x, y) {
-		return cursorStore.x === x && cursorStore.y === y;
+		return (cursorStore.x === x && cursorStore.y === y);
+	}
+
+	function isHighLight(hintHighLight, x ,y) {
+		let key = x + ',' + y;
+		// for (let i = 0; i < hintHighLight.length; i++) {
+		// 	if (hintHighLight[i] == key) {
+		// 		return true;
+		// 	}
+		// }
+		return hintHighLight.hasOwnProperty(key);
 	}
 
 	function isSameArea(cursorStore, x, y) {
@@ -44,7 +55,7 @@
 					      cellX={x + 1}
 					      candidates={$candidates[x + ',' + y]}
 					      disabled={$gamePaused}
-					      selected={isSelected($cursor, x, y)}
+					      selected={isSelected($cursor, x, y) || isHighLight($hintHighLight, x, y) }
 					      userNumber={$grid[y][x] === 0}
 					      sameArea={$settings.highlightCells && !isSelected($cursor, x, y) && isSameArea($cursor, x, y)}
 					      sameNumber={$settings.highlightSame && value && !isSelected($cursor, x, y) && getValueAtCursor($userGrid, $cursor) === value}
