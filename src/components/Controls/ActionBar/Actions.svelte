@@ -8,6 +8,7 @@
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 	import { gamePaused } from '@sudoku/stores/game';
 	import { roam } from '@sudoku/stores/roam';
+	import { strategyManeger } from '@sudoku/strategy';
 
 	$: hintsAvailable = $hints > 0;
 
@@ -16,8 +17,9 @@
 			if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
 				candidates.clear($cursor);
 			}
-
+			
 			userGrid.applyHint($cursor);
+			strategyManeger.run(userGrid);
 		}
 	}
 </script>
@@ -25,10 +27,9 @@
 <div class="action-buttons space-x-3">
 
 	<button class="btn btn-round" disabled={$gamePaused || $invalidCells.length !== 0} on:click={roam.save} title="Save">
-		<!-- <svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+		<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<circle cx="12" cy="12" r="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> 
-		</svg> -->
-		<p>save</p>
+		</svg>
 	</button>
 
 	<button class="btn btn-round" disabled={$gamePaused || $roam.checkpoint == null} on:click={roam.restore} title="Restore">
