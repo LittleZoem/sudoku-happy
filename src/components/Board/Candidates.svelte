@@ -1,14 +1,17 @@
 <script>
 	import { CANDIDATE_COORDS } from '@sudoku/constants';
 
-	export let candidates = [];
+	export let candidate;
+	export let value;
+
+	let data = candidate || value;
 </script>
 
 <div class="candidate-grid">
 	{#each CANDIDATE_COORDS as [row, col], index}
 		<div class="candidate row-start-{row} col-start-{col}"
-		     class:invisible={!candidates.includes(index + 1)}
-		     class:visible={candidates.includes(index + 1)}>
+		     class:invisible={!data.includes(index + 1)}
+		     class:visible={data.includes(index + 1)}>
 			{index + 1}
 		</div>
 	{/each}

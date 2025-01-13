@@ -7,23 +7,26 @@
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
+    import { inferenceGrid } from '@sudoku/stores/inference';
+	import { get } from 'svelte/store';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
-			if ($notes) {
-				if (num === 0) {
-					candidates.clear($cursor);
-				} else {
-					candidates.add($cursor, num);
-				}
-				userGrid.set($cursor, 0);
-			} else {
-				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-					candidates.clear($cursor);
-				}
+			// if ($notes) {
+			// 	if (num === 0) {
+			// 		candidates.clear($cursor);
+			// 	} else {
+			// 		candidates.add($cursor, num);
+			// 	}
+			// 	userGrid.set($cursor, 0);
+			// } else {
+			// 	if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
+			// 		candidates.clear($cursor);
+			// 	}
 
-				userGrid.set($cursor, num);
-			}
+			// 	userGrid.set($cursor, num);
+			// }
+			inferenceGrid.set($cursor, num);
 		}
 
 
@@ -89,7 +92,7 @@
 				</svg>
 			</button>
 		{:else}
-			<button class="btn btn-key" disabled={$keyboardDisabled} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
+			<button class="btn btn-key" disabled={$keyboardDisabled || !$inferenceGrid[$cursor.y][$cursor.x].includes(keyNum + 1)} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
 				{keyNum + 1}
 			</button>
 		{/if}

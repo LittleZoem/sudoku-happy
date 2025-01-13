@@ -7,6 +7,8 @@
 	import { candidates } from '@sudoku/stores/candidates';
 	import Cell from './Cell.svelte';
 	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
+	import { inferenceGrid } from '@sudoku/stores/inference';
+	import { hints } from '@sudoku/stores/hints'
 
 	function isSelected(cursorStore, x, y) {
 		return (cursorStore.x === x && cursorStore.y === y);
@@ -33,6 +35,12 @@
 		return (cursorBoxX === cellBoxX && cursorBoxY === cellBoxY);
 	}
 
+	function isInference(hintsStore, userGridStore, x, y, value) {
+		if (userGridStore[y][x] != 0) return false;
+		if (hintsStore > 0 && value.length <= hintsStore) return true;
+		return false;
+	}
+
 	function getValueAtCursor(gridStore, cursorStore) {
 		if (cursorStore.x === null && cursorStore.y === null) return null;
 
@@ -48,15 +56,17 @@
 
 		<div class="bg-white shadow-2xl rounded-xl overflow-hidden w-full h-full max-w-xl grid" class:bg-gray-200={$gamePaused}>
 
-			{#each $userGrid as row, y}
+			{#each $inferenceGrid as row, y}
 				{#each row as value, x}
 					<Cell {value}
 					      cellY={y + 1}
 					      cellX={x + 1}
-					      candidates={$candidates[x + ',' + y]}
+					      candidate={$candidates[x + ',' + y]}
 					      disabled={$gamePaused}
 					      selected={isSelected($cursor, x, y) || isHighLight($hintHighLight, x, y) }
-					      userNumber={$grid[y][x] === 0}
+						  inferenced={isInference($hints, $userGrid, x, y, value)}
+						  gridNumber={$grid[y][x] != 0}
+					      userNumber={$grid[y][x] === 0 && $userGrid[y][x] != 0}
 					      sameArea={$settings.highlightCells && !isSelected($cursor, x, y) && isSameArea($cursor, x, y)}
 					      sameNumber={$settings.highlightSame && value && !isSelected($cursor, x, y) && getValueAtCursor($userGrid, $cursor) === value}
 					      conflictingNumber={$settings.highlightConflicting && $grid[y][x] === 0 && $invalidCells.includes(x + ',' + y)} />
