@@ -4,7 +4,7 @@
 	import { SUDOKU_SIZE } from '@sudoku/constants';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
-	import { candidates } from '@sudoku/stores/candidates';
+	import { candidates, inferenceKeys } from '@sudoku/stores/candidates';
     import { inferenceGrid } from '@sudoku/stores/inference';
 	import { get } from 'svelte/store';
 	import { hints } from '@sudoku/stores/hints'
@@ -14,6 +14,7 @@
 	export let cellX;
 	export let cellY;
 	export let candidate;
+	export let inferenceKey;
 
 	export let disabled;
 	export let conflictingNumber;
@@ -37,6 +38,7 @@
 		cursor.set(x, y);
 		hintHighLight.clear();
 		candidates.reset();
+		inferenceKeys.reset();
 
 		if (inferenced) {
 			inferenceGrid.showInferece(x, y);
@@ -50,6 +52,7 @@
 			cursor.reset();
 			hintHighLight.clear();
 			candidates.reset();
+			inferenceKeys.reset();
 		}
 	}
 </script>
@@ -71,7 +74,7 @@
 
 			<button class="cell-btn" on:click={clickCell(cellX - 1, cellY - 1, inferenced)} on:dblclick={doubleClick(cellX - 1, cellY - 1)}>
 				{#if candidate}
-					<Candidates {candidate} />
+					<Candidates {candidate} inferenceKey={inferenceKey}/>
 				{:else if inferenced && value.length > 1}
 					<Candidates {value} />
 				{:else if value.length == 1 && (inferenced || userNumber || gridNumber)}
