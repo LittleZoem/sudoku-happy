@@ -4,7 +4,7 @@
 	import { grid, userGrid, invalidCells } from '@sudoku/stores/grid';
 	import { settings } from '@sudoku/stores/settings';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { candidates, inferenceKeys } from '@sudoku/stores/candidates';
+	import { candidates, inferenceKeys, visitedNums } from '@sudoku/stores/candidates';
 	import Cell from './Cell.svelte';
 	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
 	import { inferenceGrid } from '@sudoku/stores/inference';
@@ -63,6 +63,7 @@
 					      cellX={x + 1}
 					      candidate={$candidates[x + ',' + y]}
 						  inferenceKey={$inferenceKeys[x + ',' + y]}
+						  visitedNum={$visitedNums[x + ',' + y]}
 					      disabled={$gamePaused}
 					      selected={isSelected($cursor, x, y) || isHighLight($hintHighLight, x, y) }
 						  inferenced={isInference($hints, $userGrid, x, y, value)}

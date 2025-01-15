@@ -7,6 +7,7 @@
 	// let data = candidate || value;
 
 	export let inferenceKey = [];
+	export let visitedNum = [];
 
 </script>
 
@@ -15,6 +16,7 @@
 		<div class="candidate row-start-{row} col-start-{col}"
 		     class:invisible={!candidate.includes(index + 1) && !value.includes(index + 1)}
 		     class:visible={candidate.includes(index + 1) || value.includes(index + 1)}
+			 class:bg-gray-400={value.includes(index + 1) && visitedNum.includes(index + 1)}
 			 class:bg-yellow-600={candidate.includes(index + 1) && inferenceKey.includes(index + 1)}>
 			{index + 1}
 		</div>

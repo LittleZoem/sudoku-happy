@@ -2,34 +2,31 @@
 	import { userGrid } from '@sudoku/stores/grid';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
-	import { candidates } from '@sudoku/stores/candidates';
+	import { candidates, inferenceKeys, visitedNums } from '@sudoku/stores/candidates';
+	import { hints } from '@sudoku/stores/hints'
 	import { roam } from '@sudoku/stores/roam';
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
     import { inferenceGrid } from '@sudoku/stores/inference';
+	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
 	import { get } from 'svelte/store';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
-			// if ($notes) {
-			// 	if (num === 0) {
-			// 		candidates.clear($cursor);
-			// 	} else {
-			// 		candidates.add($cursor, num);
-			// 	}
-			// 	userGrid.set($cursor, 0);
-			// } else {
-			// 	if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
-			// 		candidates.clear($cursor);
-			// 	}
-
-			// 	userGrid.set($cursor, num);
-			// }
 			inferenceGrid.set($cursor, num);
+			cursor.reset();
+			hintHighLight.clear();
+			candidates.reset();
+			inferenceKeys.reset();
 		}
+	}
 
-
+	function inputNumDisable(hintsStore, inferenceGridStore, visitedNumsStore, cursorStore, num) {
+		return hintsStore > 0
+			   && inferenceGridStore[cursorStore.y][cursorStore.x].length <= hintsStore
+			   && (!inferenceGridStore[cursorStore.y][cursorStore.x].includes(num)
+			   		|| (visitedNumsStore[cursorStore.x + ',' + cursorStore.y] && visitedNumsStore[cursorStore.x + ',' + cursorStore.y].includes(num)));
 	}
 
 	function handleKey(e) {
@@ -92,7 +89,7 @@
 				</svg>
 			</button>
 		{:else}
-			<button class="btn btn-key" disabled={$keyboardDisabled || !$inferenceGrid[$cursor.y][$cursor.x].includes(keyNum + 1)} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
+			<button class="btn btn-key" disabled={$keyboardDisabled || inputNumDisable($hints, $inferenceGrid, $visitedNums, $cursor, keyNum + 1)} title="Insert {keyNum + 1}" on:click={() => handleKeyButton(keyNum + 1)}>
 				{keyNum + 1}
 			</button>
 		{/if}

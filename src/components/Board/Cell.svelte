@@ -15,6 +15,7 @@
 	export let cellY;
 	export let candidate;
 	export let inferenceKey;
+	export let visitedNum;
 
 	export let disabled;
 	export let conflictingNumber;
@@ -76,7 +77,7 @@
 				{#if candidate}
 					<Candidates {candidate} inferenceKey={inferenceKey}/>
 				{:else if inferenced && value.length > 1}
-					<Candidates {value} />
+					<Candidates {value} visitedNum={visitedNum}/>
 				{:else if value.length == 1 && (inferenced || userNumber || gridNumber)}
 					<span class="cell-text">{value[0] || ''}</span>
 				{:else}
