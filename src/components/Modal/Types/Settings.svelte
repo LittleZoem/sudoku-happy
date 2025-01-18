@@ -2,20 +2,20 @@
 	import { slide } from 'svelte/transition';
 	import Switch from '../../Utils/Switch.svelte';
 	import { settings as settingsStore } from '@sudoku/stores/settings';
-	import { MAX_HINTS } from '@sudoku/constants';
+	import { MAX_HINTS_LEVEL } from '@sudoku/constants';
 
 	export let data = {};
 	export let hideModal;
 
 	let settings = { ...$settingsStore };
 
-	let hintsLimited = settings.hintsLimited;
+	let hintsLevelLimited = settings.hintsLevelLimited;
 
 	function handleSave() {
-		settings.hintsLimited = hintsLimited;
+		settings.hintsLevelLimited = hintsLevelLimited;
 
-		if (settings.hints < 0) settings.hints = 0;
-		if (settings.hints > MAX_HINTS) settings.hints = MAX_HINTS;
+		if (settings.hintsLevel < 0) settings.hintsLevel = 0;
+		if (settings.hintsLevel > MAX_HINTS_LEVEL) settings.hintsLevel = MAX_HINTS_LEVEL;
 
 		settingsStore.set(settings);
 		hideModal();
@@ -38,12 +38,12 @@
 	<!--<Switch bind:checked={settings.darkTheme} text="Enable dark theme" id="dark-theme" />-->
 	<Switch bind:checked={settings.displayTimer} text="Display timer while playing" id="display-timer" />
 
-	<Switch bind:checked={hintsLimited} text="Limit the number of hints available" id="hints-limited" />
-	{#if hintsLimited}
+	<Switch bind:checked={hintsLevelLimited} text="Limit the max hints Level" id="hints-limited" />
+	{#if hintsLevelLimited}
 		<div transition:slide class="inline-flex items-center">
-			<label for="hints" class="flex-grow text-lg">Number of available hints</label>
+			<label for="hints" class="flex-grow text-lg">Max hints level at each step</label>
 
-			<input bind:value={settings.hints} class="number-input" id="hints" name="hints" type="number" min="0" max="81" />
+			<input bind:value={settings.maxHintsLevel} class="number-input" id="hints" name="hints" type="number" min="0" max="9" />
 		</div>
 	{/if}
 
