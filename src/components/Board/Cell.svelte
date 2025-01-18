@@ -9,6 +9,7 @@
 	import { get } from 'svelte/store';
 	import { hints } from '@sudoku/stores/hints'
     import { userGrid } from '@sudoku/stores/grid';
+	import { strategyTrack } from '@sudoku/stores/hints';
 
 	export let value;
 	export let cellX;
@@ -43,6 +44,9 @@
 
 		if (inferenced) {
 			inferenceGrid.showInferece(x, y);
+		}
+		else {
+			strategyTrack.clear();
 		}
 	}
 

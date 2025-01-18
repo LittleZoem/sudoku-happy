@@ -1,18 +1,14 @@
 <script>
 	import ActionBar from './ActionBar/index.svelte';
 	import Keyboard from './Keyboard.svelte';
-	import { hintMsg } from '@sudoku/stores/hints';
+    import { strategyTrack } from '@sudoku/stores/hints';
 </script>
 
 <div class="px-4 pb-5 flex justify-center">
 	<div class="w-full max-w-xl">
-
-		{#if $hintMsg.enabled}
-			<div class="hintMsg">
-				{ $hintMsg.content }
-			</div>
-		{/if}
-
+		<div class="hintMsg">
+			{ $strategyTrack }
+		</div>
 		<ActionBar />
 
 		<Keyboard />
