@@ -16,11 +16,7 @@
 
 	function isHighLight(hintHighLight, x ,y) {
 		let key = x + ',' + y;
-		// for (let i = 0; i < hintHighLight.length; i++) {
-		// 	if (hintHighLight[i] == key) {
-		// 		return true;
-		// 	}
-		// }
+
 		return hintHighLight.hasOwnProperty(key);
 	}
 
