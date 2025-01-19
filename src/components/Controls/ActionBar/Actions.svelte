@@ -1,17 +1,13 @@
 <script>
 	import { candidates, inferenceKeys } from '@sudoku/stores/candidates';
-	import { invalidCells, userGrid } from '@sudoku/stores/grid';
+	import { userGrid } from '@sudoku/stores/grid';
 	import { cursor } from '@sudoku/stores/cursor';
 	import { hints } from '@sudoku/stores/hints';
-	import { keyboardDisabled } from '@sudoku/stores/keyboard';
 	import { gamePaused } from '@sudoku/stores/game';
 	import { roam } from '@sudoku/stores/roam';
-	import { strategyManager } from '@sudoku/strategy/strategy_manager';
-	import { get } from 'svelte/store';
 	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
     import { inferenceGrid } from '@sudoku/stores/inference';
 
-	// $: hintsAvailable = $hints > 0;
 
 	function clearDisplay() {
 		cursor.reset();

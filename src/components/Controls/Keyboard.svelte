@@ -1,16 +1,12 @@
 <script>
-	import { userGrid } from '@sudoku/stores/grid';
 	import { cursor } from '@sudoku/stores/cursor';
-	import { notes } from '@sudoku/stores/notes';
 	import { candidates, inferenceKeys, visitedNums } from '@sudoku/stores/candidates';
 	import { hints } from '@sudoku/stores/hints'
-	import { roam } from '@sudoku/stores/roam';
 
 	// TODO: Improve keyboardDisabled
 	import { keyboardDisabled } from '@sudoku/stores/keyboard';
     import { inferenceGrid } from '@sudoku/stores/inference';
 	import { hintHighLight } from '@sudoku/strategy/hint_high_light';
-	import { get } from 'svelte/store';
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {

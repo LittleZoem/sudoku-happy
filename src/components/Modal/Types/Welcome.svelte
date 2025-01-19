@@ -23,16 +23,6 @@
 		return validateSencode(code) || validateUrlcode(code);
 	}
 
-	// function handleStart() {
-	// 	if (validateSencode(sencode)) {
-	// 		startCustom(sencode);
-	// 	} else {
-	// 		startNew(difficulty);
-	// 	}
-
-	// 	hideModal();
-	// }
-
 	function handleStart() {
 		if (validateSencode(sudokuCode)) {
 			startCustom(sudokuCode);
