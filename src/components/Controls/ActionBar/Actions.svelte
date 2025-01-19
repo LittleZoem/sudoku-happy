@@ -44,7 +44,7 @@
 		</svg>
 	</button> -->
 
-	<button class="btn btn-round" disabled={$gamePaused || $roam.backStack.length === 0} on:click={back} title="Back">
+	<button class="btn btn-round btn-badge" disabled={$gamePaused || $roam.backStack.length === 0} on:click={back} title="Back">
     	<svg class="icon-outline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m 13 2 a 10 10 0 1 1 -10 10 h 4 l -4 -4 l -4 4 h 4 a 10 10 0 1 0 10 -10 z" />
 		</svg>
